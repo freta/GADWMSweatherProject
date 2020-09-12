@@ -1,0 +1,13 @@
+/*small tablet to big 
+*/
+@media only screen and (max-width: 767px) {
+}
+@media only screen and (max-width: 480px) {
+  .current .temp {
+    font-size: 90px;
+    font-weight: 700;
+  }
+  body {
+    background-size: content;
+  }
+}

@@ -1,18 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" lang="en" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="manifest.json" />
-
     <title>Weather App</title>
     <meta name="weatherApp" content="The weather app of nyc" />
     <meta name="theme-color" content="#2F#BA2" />
-    <link rel="stylesheet" type="text/css" href="" />
+    <link rel="stylesheet" type="text/css" href="/styles/main.css" />
+    <link rel="stylesheet" type="text/css" href="/styles/queries.css" />
     <link rel="icon" type="image/icon" href="images/icons/haze.png" />
   </head>
   <body>
-    Hello
+    <div class="app-wrap">
+      <header>
+        <input
+          type="text"
+          autocomplete="off"
+          class="search-box"
+          autofocus
+          placeholder="Search for a city ..."
+        />
+      </header>
+      <main>
+        <section class="location">
+          <div class="city">New York City, US</div>
+          <div class="date">Thursday 10 September 2020</div>
+        </section>
+        <div class="current">
+          <div class="temp">23.3<span>°c</span></div>
+          <div class="weather">Wind</div>
+          <div class="hi-low">13°c / 16°c</div>
+        </div>
+      </main>
+    </div>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -22,5 +43,6 @@
         });
       }
     </script>
+    <script src="scripts/main.js"></script>
   </body>
 </html>

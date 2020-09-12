@@ -1,5 +1,12 @@
 const CACHE_NAME = 'static-cache-v1';
-let urlsToCache = ['/', './offline.html'];
+let urlsToCache = [
+  '/',
+  './offlline.html',
+  '/styles/main.css',
+  '/scripts/main.js',
+  '/images/',
+];
+
 // precache static resources here
 self.addEventListener('install', (evt) => {
   evt.waitUntil(
