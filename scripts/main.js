@@ -10,11 +10,10 @@ let city = document.querySelector('.location .city');
 let temp = document.querySelector('.current .temp');
 let weather_el = document.querySelector('.current .weather');
 let high_low = document.querySelector('.current .hi-low');
-let now = new Date();
-let date = document.querySelector('.location .date');
+
 let weatherArray = JSON.parse(localStorage.getItem('data')) || [];
 let content = document.querySelector('.content');
-//console.log(weatherArray);
+// console.log(weatherArray);
 
 function setQuery(evt) {
   // evt.preventDefault();
@@ -32,7 +31,7 @@ function getResults(query) {
       localStorage.setItem('data', JSON.stringify(weatherArray));
       setTimeout(() => {
         location.reload();
-      }, 3500);
+      }, 300);
     })
     .then(displayResults(weatherArray));
 }
@@ -41,8 +40,8 @@ function displayResults(data) {
   let mappedArr = data.map((weather) => {
     return `<main>
   <section class="location">
-    <div class="city">${weather.name},${weather.sys.country}</div>
-    <div class="date">dateBuilder(now)</div>
+    <div class="city">${weather.name}</div>
+    <div class="date">${weather.main.humidity}</div>
   </section>
     <div class="current">
     <div class="temp">${weather.main.temp}<span>°c</span></div>
@@ -50,40 +49,9 @@ function displayResults(data) {
     <div class="hi-low">${weather.main.temp_min}${weather.main.temp_max}</div>
   </div>
 </main>`;
-});
+  });
   mappedArr = mappedArr.join('');
   content.innerHTML = mappedArr;
-}
-
-function dateBuilder(d) {
-  let months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  let days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
-  let day = days[d.getDay()];
-  let date = d.getDate();
-  let month = months[d.getMonth()];
-  let year = d.getFullYear();
-  return `${day} ${date} ${month} ${year}`;
 }
 
 const notifyMe = () => {
