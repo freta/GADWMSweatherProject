@@ -6,7 +6,14 @@ let urlsToCache = [
   '/scripts/main.js',
   '/images/',
 ];
-
+// registering service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then((reg) => {
+      console.log('Service Worker Registered', reg);
+    });
+  });
+}
 // precache static resources here
 self.addEventListener('install', (evt) => {
   evt.waitUntil(

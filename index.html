@@ -14,6 +14,10 @@
   <body>
     <div class="app-wrap">
       <header>
+        <div>
+        </br>
+        <button class="notification"><image src="./images/icons/2295240-200.png" width=48 height=48></image></button>
+        <div />
         <input
           type="text"
           autocomplete="off"
@@ -34,15 +38,6 @@
         </div>
       </main>
     </div>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js').then((reg) => {
-            console.log('Service Worker Registered', reg);
-          });
-        });
-      }
-    </script>
     <script src="scripts/main.js"></script>
   </body>
 </html>

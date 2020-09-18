@@ -5,6 +5,7 @@ const api = {
 
 const searchbox = document.querySelector('.search-box');
 searchbox.addEventListener('keypress', setQuery);
+let notify = document.querySelector('.notification');
 
 function setQuery(evt) {
   if (evt.keyCode == 13) {
@@ -21,7 +22,6 @@ function getResults(query) {
 }
 
 function displayResults(weather) {
-  console.log(weather);
   let city = document.querySelector('.location .city');
   city.innerText = `${weather.name},${weather.sys.country}`;
   let now = new Date();
@@ -66,4 +66,49 @@ function dateBuilder(d) {
   let month = months[d.getMonth()];
   let year = d.getFullYear();
   return `${day} ${date} ${month} ${year}`;
+}
+
+const notifyMe = () => {
+  console.log('hello');
+  Notification.requestPermission((result) => {
+    if (result !== 'granted') {
+      alert('Kindly enable notifcation to get notified');
+    } else {
+      displayConfirmNotification();
+    }
+  });
+};
+
+const displayConfirmNotification = () => {
+  if ('serviceWorker' in navigator) {
+    let options = {
+      body: 'You have been subscribed',
+      icon: './images/icons/haze192.png',
+      image: './images/icons/2295240-200.png',
+      tag: 'confirm-notification',
+      renotify: true,
+      actions: [
+        {
+          action: 'Confirm',
+          title: 'Okay',
+        },
+        {
+          action: 'Cancel',
+          title: 'Cancel',
+        },
+      ],
+    };
+
+    navigator.serviceWorker.ready.then((sw) => {
+      sw.showNotification(
+        'You successfully subscribed to be notified!',
+        options
+      );
+    });
+  }
+};
+//check browsers support for notification
+if ('Notification' in window) {
+  notify.style.display = 'block';
+  notify.addEventListener('click', notifyMe);
 }
