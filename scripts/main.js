@@ -6,35 +6,53 @@ const api = {
 const searchbox = document.querySelector('.search-box');
 searchbox.addEventListener('keypress', setQuery);
 let notify = document.querySelector('.notification');
+let city = document.querySelector('.location .city');
+let temp = document.querySelector('.current .temp');
+let weather_el = document.querySelector('.current .weather');
+let high_low = document.querySelector('.current .hi-low');
+let now = new Date();
+let date = document.querySelector('.location .date');
+let weatherArray = JSON.parse(localStorage.getItem('data')) || [];
+let content = document.querySelector('.content');
+//console.log(weatherArray);
 
 function setQuery(evt) {
+  // evt.preventDefault();
   if (evt.keyCode == 13) {
     getResults(searchbox.value);
+    searchbox.value = '';
   }
 }
 
 function getResults(query) {
   fetch(`${api.base}weather?q=${query}&units=metric&appid=${api.key}`)
+    .then((response) => response.json())
     .then((weather) => {
-      return weather.json();
+      weatherArray.unshift(weather);
+      localStorage.setItem('data', JSON.stringify(weatherArray));
+      setTimeout(() => {
+        location.reload();
+      }, 3500);
     })
-    .then(displayResults);
+    .then(displayResults(weatherArray));
 }
 
-function displayResults(weather) {
-  let city = document.querySelector('.location .city');
-  city.innerText = `${weather.name},${weather.sys.country}`;
-  let now = new Date();
-  let date = document.querySelector('.location .date');
-  date.innerText = dateBuilder(now);
-  let temp = document.querySelector('.current .temp');
-  temp.innerHTML = `${Math.round(weather.main.temp)}<span>°c</span>`;
-  let weather_el = document.querySelector('.current .weather');
-  weather_el.innerHTML = weather.weather[0].main;
-  let high_low = document.querySelector('.current .hi-low');
-  high_low.innerText = `${Math.round(weather.main.temp_min)}°c / ${Math.round(
-    weather.main.temp_max
-  )} °c`;
+function displayResults(data) {
+  let mappedArr = data.map((weather) => {
+    return `<main>
+  <section class="location">
+    <div class="city">${weather.name},${weather.sys.country}</div>
+    <div class="date">dateBuilder(now)</div>
+  </section>
+    <div class="current">
+    <div class="temp">${weather.main.temp}<span>°c</span></div>
+    <div class="weather">${weather.weather[0].main}</div>
+    <div class="hi-low">${weather.main.temp_min}${weather.main.temp_max}</div>
+  </div>
+</main>`;
+});
+  mappedArr = mappedArr.join('');
+  content.innerHTML = mappedArr;
 }
 
 function dateBuilder(d) {
@@ -69,7 +87,6 @@ function dateBuilder(d) {
 }
 
 const notifyMe = () => {
-  console.log('hello');
   Notification.requestPermission((result) => {
     if (result !== 'granted') {
       alert('Kindly enable notifcation to get notified');
