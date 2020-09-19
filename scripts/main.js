@@ -44,17 +44,21 @@ function getResults(query) {
 
 function displayResults(data) {
   let mappedArr = data.map((weather) => {
-    return `<main class="rule">
-  <section class="location">
-    <div class="city">${weather.name},${weather.sys.country}</div>
-    <div class="date">Humidity : ${weather.main.humidity}</div>
-  </section>
-    <div class="current">
-    <div class="temp">${weather.main.temp}<span>°c</span></div>
-    <div class="weather">${weather.weather[0].main}</div>
-    <div class="hi-low">Min Temp :${weather.main.temp_min}, Max Temp :${weather.main.temp_max}</div>
-  </div>
-</main>`;
+    return `<main class="rule col-md-6 col-lg-4 col-10">
+    <div class="card" >
+      <div class="card-body">
+        <section class="location">
+          <div class="city">${weather.name},${weather.sys.country}</div>
+          <div class="date">Humidity : ${weather.main.humidity}</div>
+        </section>
+        <div class="current">
+        <div class="temp">${weather.main.temp}<span>°c</span></div>
+        <div class="weather">${weather.weather[0].main}</div>
+        <div class="hi-low">Min Temp :${weather.main.temp_min}, Max Temp :${weather.main.temp_max}</div>
+        </div>
+     </div>
+     </div>
+    </main>`;
   });
   mappedArr = mappedArr.join('');
   content.innerHTML = mappedArr;
