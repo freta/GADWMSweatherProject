@@ -10,15 +10,19 @@ let city = document.querySelector('.location .city');
 let temp = document.querySelector('.current .temp');
 let weather_el = document.querySelector('.current .weather');
 let high_low = document.querySelector('.current .hi-low');
-
+// local storage
 let weatherArray = JSON.parse(localStorage.getItem('data')) || [];
 let content = document.querySelector('.content');
-// console.log(weatherArray);
 
+document.addEventListener('DOMContentLoaded', () => {
+  displayResults(weatherArray);
+});
 function setQuery(evt) {
-  // evt.preventDefault();
+  //evt.preventDefault();
   if (evt.keyCode == 13) {
     getResults(searchbox.value);
+    displayResults(weatherArray);
+    console.log(weatherArray);
     searchbox.value = '';
   }
 }
@@ -31,22 +35,24 @@ function getResults(query) {
       localStorage.setItem('data', JSON.stringify(weatherArray));
       setTimeout(() => {
         location.reload();
-      }, 300);
+      }, 3500);
     })
-    .then(displayResults(weatherArray));
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 function displayResults(data) {
   let mappedArr = data.map((weather) => {
-    return `<main>
+    return `<main class="rule">
   <section class="location">
-    <div class="city">${weather.name}</div>
-    <div class="date">${weather.main.humidity}</div>
+    <div class="city">${weather.name},${weather.sys.country}</div>
+    <div class="date">Humidity : ${weather.main.humidity}</div>
   </section>
     <div class="current">
     <div class="temp">${weather.main.temp}<span>°c</span></div>
     <div class="weather">${weather.weather[0].main}</div>
-    <div class="hi-low">${weather.main.temp_min}${weather.main.temp_max}</div>
+    <div class="hi-low">Min Temp :${weather.main.temp_min}, Max Temp :${weather.main.temp_max}</div>
   </div>
 </main>`;
   });
